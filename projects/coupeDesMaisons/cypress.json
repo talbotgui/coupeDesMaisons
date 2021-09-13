@@ -1,0 +1,10 @@
+{
+  "integrationFolder": "projects/coupeDesMaisons/cypress/integration",
+  "supportFile": "projects/coupeDesMaisons/cypress/support/index.ts",
+  "videosFolder": "projects/coupeDesMaisons/cypress/videos",
+  "screenshotsFolder": "projects/coupeDesMaisons/cypress/screenshots",
+  "pluginsFile": false,
+  "fixturesFolder": "projects/coupeDesMaisons/cypress/fixtures",
+  "baseUrl": "http://localhost:4200",
+  "scrollBehavior": "center"
+}

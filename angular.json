@@ -1,0 +1,155 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "coupeDesMaisons": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/coupeDesMaisons",
+      "sourceRoot": "projects/coupeDesMaisons/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/coupeDesMaisons",
+            "index": "projects/coupeDesMaisons/src/index.html",
+            "main": "projects/coupeDesMaisons/src/main.ts",
+            "polyfills": "projects/coupeDesMaisons/src/polyfills.ts",
+            "tsConfig": "projects/coupeDesMaisons/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/coupeDesMaisons/src/favicon.ico",
+              "projects/coupeDesMaisons/src/assets"
+            ],
+            "styles": [
+              "./node_modules/font-awesome/css/font-awesome.css",
+              "./node_modules/font-awesome-animation/font-awesome-animation.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/coupeDesMaisons/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "fonts": false
+              },
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/coupeDesMaisons/src/environments/environment.ts",
+                  "with": "projects/coupeDesMaisons/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "coupeDesMaisons:build:production"
+            },
+            "development": {
+              "browserTarget": "coupeDesMaisons:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "coupeDesMaisons:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/coupeDesMaisons/src/test.ts",
+            "polyfills": "projects/coupeDesMaisons/src/polyfills.ts",
+            "tsConfig": "projects/coupeDesMaisons/tsconfig.spec.json",
+            "karmaConfig": "projects/coupeDesMaisons/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/coupeDesMaisons/src/favicon.ico",
+              "projects/coupeDesMaisons/src/assets"
+            ],
+            "styles": [
+              "./node_modules/font-awesome/css/font-awesome.css",
+              "./node_modules/font-awesome-animation/font-awesome-animation.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/coupeDesMaisons/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "coupeDesMaisons:serve",
+            "configFile": "projects/coupeDesMaisons/cypress.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "coupeDesMaisons:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false,
+            "configFile": "projects/coupeDesMaisons/cypress.json"
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "coupeDesMaisons:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "coupeDesMaisons:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "coupeDesMaisons"
+}
