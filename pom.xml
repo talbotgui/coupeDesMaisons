@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Plus utilisé depuis 09/2021 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.guillaumetalbot</groupId>
+	<artifactId>coupeDesMaisons</artifactId>
+	<name>Application de gestion de la coupe des maisons</name>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<!-- clefs de configuration -->
+	<properties>
+		<!-- Encoding des fichiers -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<!-- Nettoyage des répertoires générés par maven et npm -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<filesets>
+						<fileset><directory>build</directory></fileset>
+						<fileset><directory>node</directory></fileset>
+						<fileset><directory>node_modules</directory></fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<!-- Gestion de la partie NPM -->
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.12.0</version>
+				<executions>
+					<!-- Installation de Node et Npm -->
+					<execution>
+						<id>installNode</id>
+						<goals><goal>install-node-and-npm</goal></goals>
+						<phase>initialize</phase>
+						<configuration>
+							<nodeVersion>v14.16.0</nodeVersion>
+							<npmVersion>6.14.1</npmVersion>
+							<nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+							<npmDownloadRoot>http://registry.npmjs.org/npm/-/</npmDownloadRoot>
+						</configuration>
+					</execution>
+					<!-- Initialisation du proxy pour Node -->
+					<!--<execution>
+						<id>npmProxyHttp</id>
+						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
+						<configuration><arguments>config set proxy "http://xx:yy"</arguments></configuration>
+					</execution>
+					<execution>
+						<id>npmProxyHttps</id>
+						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
+						<configuration><arguments>config set https-proxy "http://xx:yy"</arguments></configuration>
+					</execution>-->
+					<!-- Initialisation du registry -->
+					<!--<execution>
+						<id>npmSetRegistry</id>
+						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
+						<configuration>
+							<arguments>config set registry https://registry.npmjs.org</arguments>
+						</configuration>
+					</execution>-->
+					<!-- Paramétrage SSL -->
+					<execution>
+						<id>npmSetSsl</id>
+						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
+						<configuration><arguments>config set strict-ssl false</arguments></configuration>
+					</execution>
+					<!-- Téléchargement des dépendances NPM -->
+					<execution>
+						<id>npmInstall</id>
+						<goals><goal>npm</goal></goals>
+						<phase>generate-resources</phase>
+						<configuration><arguments>install</arguments></configuration>
+					</execution>
+					<!-- Packaging des applications par NPM -->
+					<execution>
+						<id>npmRunBuild</id>
+						<goals><goal>npm</goal></goals>
+						<phase>compile</phase>
+						<configuration><arguments>run build-prod</arguments></configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
