@@ -8,8 +8,6 @@ import { Service } from './service/service';
 export class AppComponent implements OnInit {
 
   public utilisateurConnecte?: Adulte;
-  public nomUtilisateur?: string;
-  public motDePasse?: string;
 
   /** Constructeur pour injection des dépendances */
   constructor(private service: Service, private evenement: Evenement) { }
@@ -18,7 +16,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
 
     // A la connexion/déconnexion d'un utilisateur
-    this.evenement.obtenirObservableDeConnexionOuDeconnection()
+    this.evenement.obtenirObservableDeConnexionOuDeconnexion()
       .subscribe(utilisateurConnecte => this.utilisateurConnecte = utilisateurConnecte);
   }
 }

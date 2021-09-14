@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Adulte, AnneeScolaire } from '../model/model';
+import { Adulte, AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
 import { Evenement } from './evenement';
 
 /**
@@ -9,26 +9,45 @@ import { Evenement } from './evenement';
 @Injectable()
 export class Service {
 
-    /** Année chargée en mémoire suite à une connexion */
-    private anneeScolaire?: AnneeScolaire;
-    private adulteConnecte?: Adulte;
-
-
-
     /** Constructeur pour injection des dépendances */
     constructor(private evenement: Evenement) { }
 
     public seConnecter(utilisateur: string, motDePasse: string): Observable<void> {
         //TODO: à implémenter
         // this.chargerAnneeEnCours();
-        // this.evenement.lancerEvenementConnection();
+        // this.evenement.lancerEvenementConnexion();
+        const adulteConnecte = new Adulte();
+        adulteConnecte.nom = 'le professeur Rogue';
+        adulteConnecte.photo = '/assets/images/rogue.png';
+        this.evenement.lancerEvenementConnexion(adulteConnecte);
+
+        const annee = new AnneeScolaire();
+        annee.adultes.push(adulteConnecte);
+        for (var i = 0; i < 4; i++) {
+            const groupe = new Groupe();
+            groupe.nom = 'Groupe ' + i;
+            annee.groupes.push(groupe);
+        }
+        for (var i = 0; i < 10; i++) {
+            const bareme = new Bareme();
+            bareme.libelle = 'Bareme ' + i;
+            bareme.points = i * 10 - 50;
+            annee.baremes.push(bareme);
+        }
+        const decision = new Decision();
+        decision.adulte = adulteConnecte;
+        decision.bareme = annee.baremes[0];
+        decision.groupe = annee.groupes[0];
+        decision.points = 10;
+        annee.decisions.push(decision);
+        this.evenement.lancerEvenementAnneeChargee(annee);
         return of();
     }
 
     public seDeconnecter(utilisateur: string, motDePasse: string): Observable<void> {
         //TODO: à implémenter
         //this.chargerAnneeEnCours()
-        // this.evenement.lancerEvenementDeconnection();
+        // this.evenement.lancerEvenementDeconnexion();
         return of();
     }
 

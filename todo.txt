@@ -1,0 +1,15 @@
+Maquette :
+ - connexion
+ - menu
+ - blason, maison et points
+ - échelle avec maison et points
+ - ajout de décision
+ - historique des décisions avec chargement par page
+ - supprimer une de mes décisions
+ - consulter le barème
+
+Firebase :
+ - auth
+ - chargement
+ - sauvegarde
+ - script d'init !

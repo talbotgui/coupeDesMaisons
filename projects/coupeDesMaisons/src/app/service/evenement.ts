@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Adulte } from '../model/model';
+import { Adulte, AnneeScolaire } from '../model/model';
 
 /**
  * Classe traitant de toutes les logiques.
@@ -9,19 +9,26 @@ import { Adulte } from '../model/model';
 export class Evenement {
 
     /** Les subject */
-    private connectionOuDeconnection = new BehaviorSubject<Adulte | undefined>(undefined);
+    private connexionOuDeconnexion = new BehaviorSubject<Adulte | undefined>(undefined);
+    private anneeChargee = new BehaviorSubject<AnneeScolaire | undefined>(undefined);
 
     /** Les méthodes de récupération des observables */
-    public obtenirObservableDeConnexionOuDeconnection(): Observable<Adulte | undefined> {
-        return this.connectionOuDeconnection.asObservable();
+    public obtenirObservableDeConnexionOuDeconnexion(): Observable<Adulte | undefined> {
+        return this.connexionOuDeconnexion.asObservable();
+    }
+    public obtenirObservableAnneeChargee(): Observable<AnneeScolaire | undefined> {
+        return this.anneeChargee.asObservable();
     }
 
     /** Les méthodes pour lancer des évènements */
-    public lancerEvenementConnection(adulte: Adulte): void {
-        this.connectionOuDeconnection.next(adulte);
+    public lancerEvenementConnexion(adulte: Adulte): void {
+        this.connexionOuDeconnexion.next(adulte);
     }
-    public lancerEvenementCeconnection(): void {
-        this.connectionOuDeconnection.next(undefined);
+    public lancerEvenementDeconnexion(): void {
+        this.connexionOuDeconnexion.next(undefined);
+    }
+    public lancerEvenementAnneeChargee(annee: AnneeScolaire): void {
+        this.anneeChargee.next(annee);
     }
 
 }

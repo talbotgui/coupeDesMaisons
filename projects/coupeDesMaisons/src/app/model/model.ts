@@ -1,7 +1,8 @@
 export class AnneeScolaire {
   public adultes: Adulte[] = [];
   public groupes: Groupe[] = [];
-  public decision: Decision[] = [];
+  public decisions: Decision[] = [];
+  public baremes: Bareme[] = [];
 }
 
 export class Adulte {
@@ -18,6 +19,7 @@ export class Groupe {
 
 export class Decision {
   public id?: string;
+  public date?: string;
   public points?: number;
   public bareme?: Bareme;
   public groupe?: Groupe;
