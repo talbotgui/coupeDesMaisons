@@ -23,6 +23,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { ConnexionComponent } from './connexion/connexion.component';
 import { MyDateAdapter } from './dateformat.component';
 import { AttributesToMapPipe, MapValuesPipe } from './pipes.component';
 import { Dao } from './service/dao';
@@ -39,12 +40,12 @@ registerLocaleData(localeFr, 'fr');
 
   // Tous les composants applicatifs de l'application
   declarations: [
-    AppComponent, AttributesToMapPipe, MapValuesPipe,
+    AppComponent, ConnexionComponent,
+    AttributesToMapPipe, MapValuesPipe,
   ],
 
   // Tous les composants à afficher dans un Dialog
   entryComponents: [
-
   ],
 
   providers: [
