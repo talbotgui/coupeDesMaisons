@@ -2,11 +2,27 @@
 	<h2 mat-dialog-title>Encore vous !?</h2>
 
 	<mat-dialog-content>
+		<div class="col-12">
+			<mat-form-field appearance="fill">
+				<mat-label>Nombre de points</mat-label>
+				<mat-select #inputPoints="ngModel" [(ngModel)]="bareme" placeholder="Nombre de points" name="bareme">
+					<mat-option *ngFor="let b of baremes" [value]="b">{{b.libelle}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div class="col-12">
+			<mat-form-field appearance="fill">
+				<mat-label>Groupe</mat-label>
+				<mat-select #inputGroupe="ngModel" [(ngModel)]="groupe" placeholder="Groupe" name="groupe">
+					<mat-option *ngFor="let g of groupes" [value]="g">{{g.nom}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
 	</mat-dialog-content>
 
 	<mat-dialog-actions>
 		<div class="col-12">
-			<button class="button">Axio</button>
+			<button class="button" [disabled]="!groupe || !bareme" (click)="ajouterScore()">Axio</button>
 		</div>
 	</mat-dialog-actions>
 </form>

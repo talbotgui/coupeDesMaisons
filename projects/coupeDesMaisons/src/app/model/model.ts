@@ -15,19 +15,25 @@ export class Groupe {
   public id?: string;
   public nom?: string;
   public photo?: string;
+  public scoreCalcule: number = 0;
 }
 
 export class Decision {
   public id?: string;
   public date?: string;
   public points?: number;
-  public bareme?: Bareme;
-  public groupe?: Groupe;
-  public adulte?: Adulte;
+  public idBareme?: string;
+  public idGroupe?: string;
+  public idAdulte?: string;
 }
 
 export class Bareme {
   public id?: string;
   public libelle?: string;
   public points?: number;
+}
+
+export class SaisieScoreDto {
+  public annee?: AnneeScolaire;
+  public adulteConnecte?: Adulte;
 }
