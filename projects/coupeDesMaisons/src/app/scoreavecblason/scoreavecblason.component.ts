@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Adulte } from '../model/model';
+import { Adulte, AnneeScolaire, SaisieScoreDto } from '../model/model';
 import { Evenement } from '../service/evenement';
 import { SaisieScoreComponent } from './saisiescore/saisiescore.component';
 
@@ -9,8 +9,11 @@ import { SaisieScoreComponent } from './saisiescore/saisiescore.component';
 export class ScoreAvecBlasonComponent implements OnInit {
 
   public utilisateurConnecte?: Adulte;
+  public annee?: AnneeScolaire;
   private dateClicPrecedent?: Date;
-
+  public largeurCol = 12;
+  public colDeltaGauche = 0;
+  public colDeltaDroite = 0;
 
   /** Constructeur pour injection des dépendances */
   constructor(private dialog: MatDialog, private evenement: Evenement) { }
@@ -21,6 +24,17 @@ export class ScoreAvecBlasonComponent implements OnInit {
     // A la connexion/déconnexion d'un utilisateur
     this.evenement.obtenirObservableDeConnexionOuDeconnexion()
       .subscribe(utilisateurConnecte => this.utilisateurConnecte = utilisateurConnecte);
+
+    // Au chargement d'une année
+    this.evenement.obtenirObservableAnneeChargee()
+      .subscribe(annee => {
+        this.annee = annee;
+        if (this.annee && this.annee.groupes) {
+          this.largeurCol = 12 / this.annee.groupes.length;
+          this.colDeltaGauche = (12 - (this.annee.groupes.length * this.largeurCol)) / 2;
+          this.colDeltaDroite = 12 - (this.annee.groupes.length * this.largeurCol) - this.colDeltaGauche;
+        }
+      });
   }
 
   /** Affichage de la popup de saisie des scores si le code est OK */
@@ -33,7 +47,10 @@ export class ScoreAvecBlasonComponent implements OnInit {
       if (delaiDepuisDernierClic < 1000) {
 
         // ouverture de la DIALOG de connexion
-        this.dialog.open(SaisieScoreComponent, { height: '310px', width: '255px' });
+        const dto = new SaisieScoreDto();
+        dto.adulteConnecte = this.utilisateurConnecte;
+        dto.annee = this.annee;
+        this.dialog.open(SaisieScoreComponent, { height: '325px', width: '255px', data: dto });
       }
     }
     // Dans tous les cas, on enregistre le clic
