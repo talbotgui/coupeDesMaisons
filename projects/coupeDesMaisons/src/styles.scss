@@ -1,2 +1,12 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+/** Pour disposer de la classe utilitaire de bootstrap indisponible */
+.text-right { text-align: right; }
+
+/** Pour adapter les images à leur contenant */
+@media (orientation: landscape) {
+    img.imageAdaptee { height: 100%; }
+}
+@media (orientation: portrait) {
+    img.imageAdaptee { width: 100%; }
+}

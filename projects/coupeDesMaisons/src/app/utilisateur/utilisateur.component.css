@@ -1,0 +1,6 @@
+@media (orientation: portrait) {
+    .ligneUtilisateur { margin-bottom: 30px; }
+}
+@media (orientation: landscape) {
+    .ligneUtilisateur { display: none; }
+}

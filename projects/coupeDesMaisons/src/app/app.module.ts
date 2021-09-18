@@ -23,12 +23,15 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { ConnexionComponent } from './connexion/connexion.component';
 import { MyDateAdapter } from './dateformat.component';
 import { AttributesToMapPipe, MapValuesPipe } from './pipes.component';
+import { SaisieScoreComponent } from './scoreavecblason/saisiescore/saisiescore.component';
+import { ScoreAvecBlasonComponent } from './scoreavecblason/scoreavecblason.component';
 import { Dao } from './service/dao';
 import { Evenement } from './service/evenement';
 import { Service } from './service/service';
+import { ConnexionComponent } from './utilisateur/connexion/connexion.component';
+import { UtilisateurComponent } from './utilisateur/utilisateur.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -40,12 +43,13 @@ registerLocaleData(localeFr, 'fr');
 
   // Tous les composants applicatifs de l'application
   declarations: [
-    AppComponent, ConnexionComponent,
+    AppComponent, ConnexionComponent, UtilisateurComponent, ScoreAvecBlasonComponent, SaisieScoreComponent,
     AttributesToMapPipe, MapValuesPipe,
   ],
 
   // Tous les composants à afficher dans un Dialog
   entryComponents: [
+
   ],
 
   providers: [

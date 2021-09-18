@@ -1,0 +1,7 @@
+<!-- Utilisateur connecté -->
+<div class="row ligneUtilisateur" *ngIf="utilisateurConnecte">
+	<div class="col-8"></div>
+	<div class="col-4 text-right">
+		<img class="imageAdaptee" alt="Photo de profil" [src]="utilisateurConnecte.photo" />
+	</div>
+</div>
