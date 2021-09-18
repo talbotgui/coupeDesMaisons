@@ -12,7 +12,7 @@ export class Service {
     /** Constructeur pour injection des dépendances */
     constructor(private evenement: Evenement) { }
 
-    public seConnecter(utilisateur: string, motDePasse: string): Observable<void> {
+    public seConnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
         //TODO: à implémenter
         // this.chargerAnneeEnCours();
         // this.evenement.lancerEvenementConnexion();
@@ -41,14 +41,14 @@ export class Service {
         decision.points = 10;
         annee.decisions.push(decision);
         this.evenement.lancerEvenementAnneeChargee(annee);
-        return of();
+        return of(true);
     }
 
-    public seDeconnecter(utilisateur: string, motDePasse: string): Observable<void> {
+    public seDeconnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
         //TODO: à implémenter
         //this.chargerAnneeEnCours()
         // this.evenement.lancerEvenementDeconnexion();
-        return of();
+        return of(true);
     }
 
 

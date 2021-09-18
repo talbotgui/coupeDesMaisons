@@ -1,12 +1,11 @@
 <div class="container-fluid">
-
-	<!-- Utilisateur connecté ou formulaire de connexion -->
-	<app-connexion></app-connexion>
-
-	<!-- Contenu de la page -->
-	<div class="row" *ngIf="!!utilisateurConnecte">
+	<div class="row">
 		<div class="col-12">
-			coucou qsd
+			<!-- Utilisateur connecté et formulaire de connexion -->
+			<app-utilisateur></app-utilisateur>
+
+			<!-- Contenu de la page -->
+			<app-scoreavecblason></app-scoreavecblason>
 		</div>
 	</div>
 </div>
