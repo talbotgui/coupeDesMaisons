@@ -12,14 +12,19 @@ export class ConnexionComponent {
   /** Mot de passe */
   public motDePasse?: string;
 
+  /** Flag de requête en cours */
+  public connexionEnCours = false;
+
   /** Constructeur pour injection des dépendances */
   constructor(private service: Service, private dialogRef: MatDialogRef<ConnexionComponent>) { }
 
   /** Action de connexion si les champs sont renseignés (protection supp) */
   public seConnecter(): void {
     if (this.nomUtilisateur && this.motDePasse) {
+      this.connexionEnCours = true;
       this.service.seConnecter(this.nomUtilisateur, this.motDePasse).subscribe(estConnecte => {
         if (estConnecte) {
+          this.connexionEnCours = false;
           this.dialogRef.close();
         }
       });

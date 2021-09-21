@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "coupedesmaisons": {
+      "hosting": {
+        "coupeDesMaisons": [
+          "coupedesmaisons"
+        ]
+      }
+    }
+  }
+}

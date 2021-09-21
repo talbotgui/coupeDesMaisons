@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { Adulte, AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
+import { map } from 'rxjs/operators';
+import { Adulte, AnneeScolaire, Decision, Groupe } from '../model/model';
+import { Auth } from './auth';
+import { Dao } from './dao';
 import { Evenement } from './evenement';
+
 
 /**
  * Classe traitant de toutes les logiques.
@@ -14,22 +17,42 @@ export class Service {
     private utilisateurConnecte = new Adulte();
 
     /** Constructeur pour injection des dépendances */
-    constructor(private evenement: Evenement) { }
+    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao) { }
 
+    /** Connexion avec un login et un mot de passe */
     public seConnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
+        return this.auth.seConnecter(utilisateur, motDePasse).pipe(
+            map(utilisateur => {
+                // Si la connexion est OK
+                if (!!utilisateur) {
+                    // Chargement des données
+                    this.dao.chargerDonnees().subscribe(annee => {
+                        if (annee) {
+                            this.anneeChargee = annee;
+                            // Recherche de l'utilisateur connecté dans les adultes de la base
+                            const adulteConnecte = annee.adultes.find(a => a.id === utilisateur.id);
+                            // Lancement de l'évènement de connexion avec l'adulte trouvé
+                            if (adulteConnecte) {
+                                this.utilisateurConnecte = adulteConnecte;
+                                this.evenement.lancerEvenementConnexion(this.utilisateurConnecte);
+                                // Calcul des scores
+                                this.calculerScoresApresChargementDeLannee();
+                                // Notification
+                                this.evenement.lancerEvenementAnneeChargee(annee);
+                            } else {
+                                console.error('Erreur de connexion-aucun adulte correspondant à l\'utilisateur');
+                            }
+                        } else {
+                            console.error('Erreur de connexion-aucune année chargée');
+                        }
+                    });
+                } else {
+                    console.error('Erreur de connexion-auth');
+                }
 
-        // Bouchon
-        this.utilisateurConnecte = new Adulte();
-        this.utilisateurConnecte.id = 'rogue'
-        this.utilisateurConnecte.nom = 'le professeur Rogue';
-        this.utilisateurConnecte.photo = '/assets/images/rogue.png';
-        this.evenement.lancerEvenementConnexion(this.utilisateurConnecte);
-
-        // Chargement des données
-        this.chargerAnneeEnCours();
-
-        // this.evenement.lancerEvenementConnexion();
-        return of(true);
+                return !!utilisateur;
+            })
+        );
     }
 
     public seDeconnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
@@ -63,19 +86,8 @@ export class Service {
         return of(true);
     }
 
-    private gererMessageDerreur(message: string): void {
-        //TODO: à implémenter
-    }
-
-    /** Chargement d'une année à la suite d'une connexion */
-    private chargerAnneeEnCours(): void {
-
-        // Bouchon
-        if (environment.bouchon) {
-            this.creerAnneeBouchon();
-        }
-
-        // Calcul
+    /** Calcul du score de chaque groupe après le chargement de l'année */
+    private calculerScoresApresChargementDeLannee() {
         if (this.anneeChargee && this.anneeChargee.decisions && this.anneeChargee.groupes) {
 
             // Création d'une map de groupe
@@ -95,30 +107,10 @@ export class Service {
                         groupe.scoreCalcule += d.points;
                     }
                 }
-            })
-        }
+            });
 
-        // Notification
-        this.evenement.lancerEvenementAnneeChargee(this.anneeChargee);
-    }
-
-    /** Créer un bouchon d'année */
-    private creerAnneeBouchon(): void {
-        this.anneeChargee = new AnneeScolaire();
-        this.anneeChargee.adultes.push(this.utilisateurConnecte);
-        for (var i = 1; i < 4; i++) {
-            const groupe = new Groupe();
-            groupe.id = 'g' + i;
-            groupe.nom = 'Groupe ' + i;
-            groupe.photo = '/assets/images/rogue.png';
-            this.anneeChargee.groupes.push(groupe);
-        }
-        for (var i = +100; i >= -100; i -= 10) {
-            const bareme = new Bareme();
-            bareme.id = 'b' + i;
-            bareme.libelle = i + ' points';
-            bareme.points = i;
-            this.anneeChargee.baremes.push(bareme);
+            // log des scores
+            this.anneeChargee.groupes.forEach(g => console.log('Groupe "' + g.nom + '" a ' + g.scoreCalcule + ' points'));
         }
     }
 }

@@ -22,12 +22,14 @@ export class Evenement {
 
     /** Les méthodes pour lancer des évènements */
     public lancerEvenementConnexion(adulte: Adulte): void {
+        console.log('Connexion réussie de ' + adulte.id);
         this.connexionOuDeconnexion.next(adulte);
     }
     public lancerEvenementDeconnexion(): void {
         this.connexionOuDeconnexion.next(undefined);
     }
     public lancerEvenementAnneeChargee(annee: AnneeScolaire): void {
+        console.log('Année chargée : ', annee);
         this.anneeChargee.next(annee);
     }
 

@@ -1,15 +1,15 @@
-Maquette :
- - connexion
- - menu
- - blason, maison et points
+Application :
+ x connexion
+ x blason, maison et points
  - échelle avec maison et points
  - ajout de décision
  - historique des décisions avec chargement par page
  - supprimer une de mes décisions
- - consulter le barème
+ - gestion des erreurs
 
 Firebase :
- - auth
+ x auth
  - chargement
- - sauvegarde
- - script d'init !
+ - sauvegarde d'une décision
+ - procédure d'administration des données dans Firebase
+ - notification
