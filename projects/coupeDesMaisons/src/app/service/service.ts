@@ -40,7 +40,7 @@ export class Service {
                                 // Notification
                                 this.evenement.lancerEvenementAnneeChargee(annee);
                             } else {
-                                console.error('Erreur de connexion-aucun adulte correspondant à l\'utilisateur');
+                                console.error('Erreur de connexion-aucun adulte correspondant à l\'utilisateur ' + utilisateur.id);
                             }
                         } else {
                             console.error('Erreur de connexion-aucune année chargée');
@@ -64,21 +64,7 @@ export class Service {
 
 
     public ajouterUneDecision(decision: Decision): Observable<boolean> {
-        // Ajout de la décision
-        if (!this.anneeChargee.decisions) {
-            this.anneeChargee.decisions = [];
-        }
-        this.anneeChargee.decisions.push(decision);
-
-        // Recalcul des points
-        if (this.anneeChargee.groupes) {
-            this.anneeChargee.groupes.forEach(g => {
-                if (decision.idGroupe == g.id && decision.points) {
-                    g.scoreCalcule += decision.points;
-                }
-            });
-        }
-        return of(true);
+        return this.dao.ajouterUneDecision(decision);
     }
 
     public supprimerUneDeMesDecision(id: string): Observable<boolean> {
