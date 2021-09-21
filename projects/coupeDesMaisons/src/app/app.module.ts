@@ -1,10 +1,9 @@
-// Les modules Angular importés
-// Gestion des locales et des formats de date pour Angular 5
-// @see https://angular.io/guide/i18n#i18n-pipes
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeFr from '@angular/common/locales/fr';
 import { LOCALE_ID, NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -22,12 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { MyDateAdapter } from './dateformat.component';
 import { AttributesToMapPipe, MapValuesPipe } from './pipes.component';
 import { SaisieScoreComponent } from './scoreavecblason/saisiescore/saisiescore.component';
 import { ScoreAvecBlasonComponent } from './scoreavecblason/scoreavecblason.component';
+import { Auth } from './service/auth';
 import { Dao } from './service/dao';
+import { GestionnaireErreur } from './service/erreur';
 import { Evenement } from './service/evenement';
 import { Service } from './service/service';
 import { ConnexionComponent } from './utilisateur/connexion/connexion.component';
@@ -58,7 +60,7 @@ registerLocaleData(localeFr, 'fr');
     { provide: DateAdapter, useClass: MyDateAdapter },
 
     // Les composants injectables
-    Service, Evenement, Dao,
+    Service, Evenement, Dao, Auth, GestionnaireErreur,
 
   ],
 
@@ -72,6 +74,10 @@ registerLocaleData(localeFr, 'fr');
     BrowserAnimationsModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule,
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
     MatDialogModule, MatTreeModule, MatInputModule,
+
+    // Firebase
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
 
   ]
 })
