@@ -27,7 +27,6 @@ export class Dao {
     /** Constructeur pour injection des dépendances */
     constructor(private firestore: AngularFirestore) { }
 
-
     /** Stockage d'une décision */
     public ajouterUneDecision(decision: Decision): Observable<boolean> {
         if (this.firebaseDecisions) {
@@ -35,14 +34,6 @@ export class Dao {
         } else {
             return of();
         }
-    }
-
-    /** Génération d'un UUID (@see https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid) */
-    private genererUUID(): string {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
     }
 
     /** Chargement de toutes les données */

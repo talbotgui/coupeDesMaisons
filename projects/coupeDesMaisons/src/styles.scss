@@ -4,9 +4,4 @@
 .text-right { text-align: right; }
 
 /** Pour adapter les images à leur contenant */
-@media (orientation: landscape) {
-    img.imageAdaptee { height: 100%; }
-}
-@media (orientation: portrait) {
-    img.imageAdaptee { width: 100%; }
-}
+img.imageAdaptee { max-height: 100%; max-width: 100%; }

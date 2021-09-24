@@ -1,0 +1,12 @@
+/** Pour centrer les scores en hauteur */
+.scoreMaison:before {content: '';display: inline-block;height: 100%;vertical-align: middle;margin-right: -0.25em;}
+.scoreMaison {display: inline-block; vertical-align: middle;}
+
+/** Sur téléphone en portrait uniquement */
+@media only screen and (max-device-width: 736px) and (orientation: landscape) {
+    .ligneBlason { height: 80%!important; }
+    .ligneScore { height: 20%!important; }
+}
+
+
+   
