@@ -2,14 +2,14 @@ Application :
  x connexion
  x blason, maison et points
  - échelle avec maison et points
- - ajout de décision
+ x ajout de décision
  - historique des décisions avec chargement par page
  - supprimer une de mes décisions
  - gestion des erreurs
 
 Firebase :
  x auth
- - chargement
- - sauvegarde d'une décision
- - procédure d'administration des données dans Firebase
+ x chargement
+ x sauvegarde d'une décision
+ x procédure d'administration des données dans Firebase
  - notification
