@@ -14,10 +14,11 @@
     "ncu": "ncu",
     "e2e": "ng run coupeDesMaisons:cypress-open --watch",
     "start": "ng serve --project=coupeDesMaisons --hmr=true --port=4200",
-    "build-prod": "ng build --project=coupeDesMaisons --configuration production --aot --buildOptimizer=true --output-path=docs/maclasse/ --base-href=/outilsDeClasse/maclasse/",
+    "build-prod": "ng build --project=coupeDesMaisons --configuration production --aot --buildOptimizer=true",
     "compodoc": "npx compodoc -p ./projects/coupeDesMaisons/tsconfig.doc.json -d dist/documentation/coupeDesMaisons --language fr-FR",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "deploy": "firebase deploy --project coupedesmaisons"
   },
   "dependencies": {
     "@angular/animations": "~12.0.3",

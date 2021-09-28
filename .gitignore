@@ -1,6 +1,7 @@
 # misc & compiled output
 /build/*
 /target/*
+/dist/*
 .scannerwork
 debug.log
 
@@ -22,3 +23,6 @@ debug.log
 # e2e
 /e2e/*.js
 /e2e/*.map
+
+# Firebase
+.firebase
