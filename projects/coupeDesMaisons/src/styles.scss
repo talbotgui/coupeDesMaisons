@@ -1,5 +1,8 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+/** Fond d'écran */
+body { background-image: url("/assets/images/fond.jpg"); }
+
 /** Pour disposer de la classe utilitaire de bootstrap indisponible */
 .text-right { text-align: right; }
 

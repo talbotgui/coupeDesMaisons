@@ -1,6 +1,6 @@
 /** Pour centrer les scores en hauteur */
 .scoreMaison:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; margin-right: -0.25em; }
-.scoreMaison { display: inline-block; vertical-align: middle; font-size: 30px; font-family: cursive; }
+.scoreMaison { display: inline-block; vertical-align: middle; font-size: 30px; font-family: cursive; color: white; }
 
 /** Pour fixer la hauteur entre le blason et le score */
 .ligneBlason { height: calc(100% - 30px); width: -webkit-calc(100% - 30px); width: -moz-calc(100% - 30px);}
