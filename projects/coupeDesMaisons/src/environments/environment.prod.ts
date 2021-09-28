@@ -1,5 +1,11 @@
 export const environment = {
   production: true,
+  collections: {
+    adultes: 'adultes',
+    groupes: 'groupes',
+    baremes: 'baremes',
+    decisions: 'decisions'
+  },
   firebase: {
     apiKey: "AIzaSyB1LpicPdqSYHF-Q6wmuBrhILyLdzQxQqM",
     authDomain: "coupedesmaisons.firebaseapp.com",

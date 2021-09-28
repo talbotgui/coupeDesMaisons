@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { Adulte, AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
 import { GestionnaireErreur } from './erreur';
 
@@ -46,11 +47,11 @@ export class Dao {
         if (!this.observablesInitialises) {
             // { idField: 'id' } permet de récupérer l'ID du document Firestore dans l'attribut 'id'
             // @see https://jsmobiledev.com/article/angularfire-idfield/
-            this.firebaseDecisions = this.firestore.collection<Decision>('decisions');
+            this.firebaseDecisions = this.firestore.collection<Decision>(environment.collections.decisions);
             this.decisions = this.firebaseDecisions.valueChanges({ idField: 'id' });
-            this.adultes = this.firestore.collection<Adulte>('adultes').valueChanges({ idField: 'id' });
-            this.groupes = this.firestore.collection<Groupe>('groupes').valueChanges({ idField: 'id' });
-            this.baremes = this.firestore.collection<Bareme>('baremes').valueChanges({ idField: 'id' });
+            this.adultes = this.firestore.collection<Adulte>(environment.collections.adultes).valueChanges({ idField: 'id' });
+            this.groupes = this.firestore.collection<Groupe>(environment.collections.groupes).valueChanges({ idField: 'id' });
+            this.baremes = this.firestore.collection<Bareme>(environment.collections.baremes).valueChanges({ idField: 'id' });
             this.observablesInitialises = true;
         }
 
