@@ -3,9 +3,8 @@
 		<div *ngIf="colDeltaGauche>0" [class]="'col-'+colDeltaGauche"></div>
 		<div [class]="'col-' + largeurCol" *ngFor="let groupe of annee.groupes">
 			<div class="row ligneBlason">
-				<div class="col-12 logoMaison text-center" (click)="afficherSaisieDeScore()">
-					<img class="imageAdaptee" [alt]="groupe.nom" [src]="groupe.photo" />
-				</div>
+				<div class="col-12 logoMaison text-center" (click)="afficherSaisieDeScore()"
+					[style.background-image]="'url(' + groupe.photo +')'">&nbsp;</div>
 			</div>
 			<div class="row ligneScore">
 				<div class="col-12 scoreMaison text-center">{{groupe.scoreCalcule}}</div>
