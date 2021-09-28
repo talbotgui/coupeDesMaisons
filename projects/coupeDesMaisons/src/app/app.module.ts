@@ -34,6 +34,7 @@ import { Evenement } from './service/evenement';
 import { Service } from './service/service';
 import { ConnexionComponent } from './utilisateur/connexion/connexion.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -77,7 +78,13 @@ registerLocaleData(localeFr, 'fr');
 
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
 
   ]
 })
