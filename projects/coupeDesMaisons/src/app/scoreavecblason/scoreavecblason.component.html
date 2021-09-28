@@ -1,16 +1,15 @@
 <ng-template [ngIf]="!!utilisateurConnecte && annee">
-	<div class="row ligneBlason">
+	<div class="row h-100">
 		<div *ngIf="colDeltaGauche>0" [class]="'col-'+colDeltaGauche"></div>
-		<div *ngFor="let groupe of annee.groupes" [class]="'col-' + largeurCol + ' logoMaison text-center'"
-			(click)="afficherSaisieDeScore()">
-			<img class="imageAdaptee" [alt]="groupe.nom" [src]="groupe.photo" />
-		</div>
-		<div *ngIf="colDeltaDroite>0" [class]="'col-'+colDeltaDroite"></div>
-	</div>
-	<div class="row ligneScore">
-		<div *ngIf="colDeltaGauche>0" [class]="'col-'+colDeltaGauche"></div>
-		<div *ngFor="let groupe of annee.groupes" [class]="'col-' + largeurCol + ' scoreMaison text-center'">
-			{{groupe.scoreCalcule}}
+		<div [class]="'col-' + largeurCol" *ngFor="let groupe of annee.groupes">
+			<div class="row ligneBlason">
+				<div class="col-12 logoMaison text-center" (click)="afficherSaisieDeScore()">
+					<img class="imageAdaptee" [alt]="groupe.nom" [src]="groupe.photo" />
+				</div>
+			</div>
+			<div class="row ligneScore">
+				<div class="col-12 scoreMaison text-center">{{groupe.scoreCalcule}}</div>
+			</div>
 		</div>
 		<div *ngIf="colDeltaDroite>0" [class]="'col-'+colDeltaDroite"></div>
 	</div>
