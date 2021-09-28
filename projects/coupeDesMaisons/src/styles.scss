@@ -1,7 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-/** Fond d'écran */
-body { background-image: url("/assets/images/fond.jpg"); }
+/** Pour que le html et le body soit bien 100% de la hauteur */
+html, body { height: 100%; }
 
 /** Pour disposer de la classe utilitaire de bootstrap indisponible */
 .text-right { text-align: right; }
