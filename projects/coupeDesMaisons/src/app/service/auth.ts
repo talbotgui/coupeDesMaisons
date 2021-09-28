@@ -41,10 +41,11 @@ export class Auth implements OnDestroy {
 
         // Si le bouchon est actif
         if (environment.bouchon) {
+            // Copie du code de Dao.creerDonneesBouchon
             const utilisateurConnecte = new Adulte();
             utilisateurConnecte.id = 'rogue'
             utilisateurConnecte.nom = 'le professeur Rogue';
-            utilisateurConnecte.photo = '/assets/images/rogue.png';
+            utilisateurConnecte.photo = '/assets/images/persoDobby.png';
             return of(utilisateurConnecte);
         }
 
