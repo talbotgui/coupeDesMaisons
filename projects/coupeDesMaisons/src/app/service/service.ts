@@ -62,9 +62,9 @@ export class Service {
         return of(true);
     }
 
-
+    /** Ajout d'une décision */
     public ajouterUneDecision(decision: Decision): Observable<boolean> {
-        return this.dao.ajouterUneDecision(decision);
+        return this.dao.ajouterUneDecision(decision)
     }
 
     public supprimerUneDeMesDecision(id: string): Observable<boolean> {

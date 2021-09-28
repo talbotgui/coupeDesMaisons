@@ -5,7 +5,6 @@ import { trace } from '@angular/fire/compat/performance';
 import { UserCredential } from '@firebase/auth-types';
 import { from, Observable, of, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 import { Adulte } from '../model/model';
 import { GestionnaireErreur } from './erreur';
 
@@ -38,17 +37,6 @@ export class Auth implements OnDestroy {
 
     /** Connexion avec un login et un mot de passe */
     public seConnecter(utilisateur: string, motDePasse: string): Observable<Adulte | undefined> {
-
-        // Si le bouchon est actif
-        if (environment.bouchon) {
-            // Copie du code de Dao.creerDonneesBouchon
-            const utilisateurConnecte = new Adulte();
-            utilisateurConnecte.id = 'rogue'
-            utilisateurConnecte.nom = 'le professeur Rogue';
-            utilisateurConnecte.photo = '/assets/images/persoDobby.png';
-            return of(utilisateurConnecte);
-        }
-
         // Appel à Firebase
         return from(this.auth.signInWithEmailAndPassword(utilisateur, motDePasse)).pipe(
             // Transformation de l'objet UserCredential en Adulte
