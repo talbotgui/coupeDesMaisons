@@ -5,3 +5,6 @@
 
 /** Pour adapter les images à leur contenant */
 img.imageAdaptee { max-height: 100%; max-width: 100%; }
+
+/** pour que la mise en page basée sur des DIVs de hauteur/largeur proportionnelles ne s'écrasent pas à l'affichage d'un DIALOG */
+.cdk-global-scrollblock { position: unset!important; }
