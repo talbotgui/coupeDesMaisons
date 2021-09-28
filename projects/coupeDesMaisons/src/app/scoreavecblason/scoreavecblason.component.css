@@ -1,17 +1,16 @@
 /** Pour centrer les scores en hauteur */
-.scoreMaison:before {content: '';display: inline-block;height: 100%;vertical-align: middle;margin-right: -0.25em;}
-.scoreMaison {display: inline-block; vertical-align: middle;}
+.scoreMaison:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; margin-right: -0.25em; }
+.scoreMaison { display: inline-block; vertical-align: middle; font-size: 30px; font-family: cursive; }
 
-/** Sur téléphone en paysage uniquement */
-@media only screen and (max-device-width: 736px) and (orientation: landscape) {
-    .ligneBlason { height: 80%!important; }
-    .ligneScore { height: 20%!important; }
-}
+/** Pour fixer la hauteur entre le blason et le score */
+.ligneBlason { height: calc(100% - 30px); width: -webkit-calc(100% - 30px); width: -moz-calc(100% - 30px);}
+.ligneScore { height: 30px; line-height: 30px; }
 
 /** Sur téléphone en protrait uniquement */
 @media only screen and (max-device-width: 736px) and (orientation: portrait) {
     /** Pour modifier le comportement de col-4 en col-12 en portrait */
-    .col-4 { width:100%; }
-    .logoMaison>img { max-height: 150px; }
+    .col-4 { width:100%; height: 33%; }
 }
   
+/** Pour afficher l'image efficacement (calée à droite et de la taille de la DIV) */
+.logoMaison { background-size: contain; background-repeat: no-repeat; background-position: center; } 
