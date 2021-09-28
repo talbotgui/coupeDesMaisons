@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  bouchon: false,
   firebase: {
     apiKey: "AIzaSyB1LpicPdqSYHF-Q6wmuBrhILyLdzQxQqM",
     authDomain: "coupedesmaisons.firebaseapp.com",
