@@ -62,7 +62,7 @@ export class Auth implements OnDestroy {
             }),
             // Gestion d'erreur
             catchError(erreur => {
-                this.gestionnaireErreur.gererMessageDerreur(erreur);
+                this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion', erreur);
                 return of(undefined);
             })
         );

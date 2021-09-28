@@ -73,7 +73,7 @@ registerLocaleData(localeFr, 'fr');
     // Les modules Material
     BrowserAnimationsModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule,
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
-    MatDialogModule, MatTreeModule, MatInputModule,
+    MatDialogModule, MatTreeModule, MatInputModule, MatSnackBarModule,
 
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { from, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Adulte, AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
+import { GestionnaireErreur } from './erreur';
 
 /**
  * Classe traitant tous les appels à la base de données de Firebase.
@@ -25,14 +26,19 @@ export class Dao {
     private annee = new AnneeScolaire();
 
     /** Constructeur pour injection des dépendances */
-    constructor(private firestore: AngularFirestore) { }
+    constructor(private gestionnaireErreur: GestionnaireErreur, private firestore: AngularFirestore) { }
 
     /** Stockage d'une décision */
     public ajouterUneDecision(decision: Decision): Observable<boolean> {
         if (this.firebaseDecisions) {
-            return from(this.firebaseDecisions.add(Object.assign({}, decision))).pipe(map(d => !!d));
+            return from(this.firebaseDecisions.add(Object.assign({}, decision))).pipe(map(d => !!d))
+                // Gestion d'erreur
+                .pipe(catchError(erreur => {
+                    this.gestionnaireErreur.gererMessageDerreur('Erreur à l\'ajout des données', erreur);
+                    return of(false);
+                }));
         } else {
-            return of();
+            return of(false);
         }
     }
 
@@ -62,7 +68,12 @@ export class Dao {
             map(adultes => { this.annee.adultes = adultes; return this.annee; }),
             mergeMap(() => this.baremes.pipe(map(baremes => { this.annee.baremes = baremes; return this.annee; }))),
             mergeMap(() => this.groupes.pipe(map(groupes => { this.annee.groupes = groupes; return this.annee; }))),
-            mergeMap(() => this.decisions.pipe(map(decisions => { this.annee.decisions = decisions; return this.annee; })))
+            mergeMap(() => this.decisions.pipe(map(decisions => { this.annee.decisions = decisions; return this.annee; }))),
+            catchError(erreur => {
+                this.gestionnaireErreur.gererMessageDerreur('Erreur au chargement des données', erreur);
+                return of(this.annee);
+            })
+
         );
     }
 
