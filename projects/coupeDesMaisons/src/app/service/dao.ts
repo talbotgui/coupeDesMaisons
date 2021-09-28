@@ -79,13 +79,23 @@ export class Dao {
 
     /** Créer un bouchon d'année */
     private creerDonneesBouchon(): void {
+        this.annee = new AnneeScolaire();
+
+        // Copie du code de Auth.seConnecter
+        const utilisateurConnecte = new Adulte();
+        utilisateurConnecte.id = 'rogue'
+        utilisateurConnecte.nom = 'le professeur Rogue';
+        utilisateurConnecte.photo = '/assets/images/persoDobby.png';
+        this.annee.adultes.push(utilisateurConnecte);
+
         for (var i = 1; i < 4; i++) {
             const groupe = new Groupe();
             groupe.id = 'g' + i;
             groupe.nom = 'Groupe ' + i;
-            groupe.photo = '/assets/images/rogue.png';
+            groupe.photo = '/assets/images/blasonG' + i + '.png';
             this.annee.groupes.push(groupe);
         }
+
         for (var i = +100; i >= -100; i -= 10) {
             const bareme = new Bareme();
             bareme.id = 'b' + i;
