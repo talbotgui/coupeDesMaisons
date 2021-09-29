@@ -1,10 +1,10 @@
 /** Pour centrer les scores en hauteur */
 .scoreMaison:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; margin-right: -0.25em; }
-.scoreMaison { display: inline-block; vertical-align: middle; font-size: 30px; font-family: cursive; color: white; }
+.scoreMaison { display: inline-block; vertical-align: middle; font-size: 50px; font-family: cursive; color: white; }
 
 /** Pour fixer la hauteur entre le blason et le score */
-.ligneBlason { height: calc(100% - 30px); width: -webkit-calc(100% - 30px); width: -moz-calc(100% - 30px);}
-.ligneScore { height: 30px; line-height: 30px; }
+.ligneBlason { height: calc(100% - 50px); width: -webkit-calc(100% - 30px); width: -moz-calc(100% - 30px);}
+.ligneScore { height: 50px; line-height: 50px; }
 
 /** Sur téléphone en protrait uniquement */
 @media only screen and (max-device-width: 736px) and (orientation: portrait) {
