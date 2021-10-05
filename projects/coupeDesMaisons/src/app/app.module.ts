@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { MyDateAdapter } from './dateformat.component';
@@ -33,8 +34,8 @@ import { GestionnaireErreur } from './service/erreur';
 import { Evenement } from './service/evenement';
 import { Service } from './service/service';
 import { ConnexionComponent } from './utilisateur/connexion/connexion.component';
+import { DeconnexionComponent } from './utilisateur/deconnexion/deconnexion.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -47,12 +48,11 @@ registerLocaleData(localeFr, 'fr');
   // Tous les composants applicatifs de l'application
   declarations: [
     AppComponent, ConnexionComponent, UtilisateurComponent, ScoreAvecBlasonComponent, SaisieScoreComponent,
-    AttributesToMapPipe, MapValuesPipe,
+    AttributesToMapPipe, MapValuesPipe, DeconnexionComponent,
   ],
 
   // Tous les composants à afficher dans un Dialog
   entryComponents: [
-
   ],
 
   providers: [

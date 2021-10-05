@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AbstractComponent } from '../abstract/abstract.component';
 import { Adulte, AnneeScolaire, SaisieScoreDto } from '../model/model';
 import { Evenement } from '../service/evenement';
 import { SaisieScoreComponent } from './saisiescore/saisiescore.component';
 
 
 @Component({ selector: 'app-scoreavecblason', templateUrl: './scoreavecblason.component.html', styleUrls: ['./scoreavecblason.component.css'] })
-export class ScoreAvecBlasonComponent implements OnInit {
+export class ScoreAvecBlasonComponent extends AbstractComponent implements OnInit {
 
   public utilisateurConnecte?: Adulte;
   public annee?: AnneeScolaire;
@@ -16,17 +17,18 @@ export class ScoreAvecBlasonComponent implements OnInit {
   public colDeltaDroite = 0;
 
   /** Constructeur pour injection des dépendances */
-  constructor(private dialog: MatDialog, private evenement: Evenement) { }
+  constructor(private dialog: MatDialog, private evenement: Evenement) { super(); }
 
   /** Appel au Repository à l'initialisation du composant */
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
     // A la connexion/déconnexion d'un utilisateur
-    this.evenement.obtenirObservableDeConnexionOuDeconnexion()
+    const sub1 = this.evenement.obtenirObservableDeConnexionOuDeconnexion()
       .subscribe(utilisateurConnecte => this.utilisateurConnecte = utilisateurConnecte);
+    this.declarerSouscription(sub1);
 
     // Au chargement d'une année
-    this.evenement.obtenirObservableAnneeChargee()
+    const sub2 = this.evenement.obtenirObservableAnneeChargee()
       .subscribe(annee => {
         this.annee = annee;
         if (this.annee && this.annee.groupes) {
@@ -35,6 +37,7 @@ export class ScoreAvecBlasonComponent implements OnInit {
           this.colDeltaDroite = 12 - (this.annee.groupes.length * this.largeurCol) - this.colDeltaGauche;
         }
       });
+    this.declarerSouscription(sub2);
   }
 
   /** Affichage de la popup de saisie des scores si le code est OK */

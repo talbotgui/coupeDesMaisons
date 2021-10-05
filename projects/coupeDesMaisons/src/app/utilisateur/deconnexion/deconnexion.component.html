@@ -1,0 +1,22 @@
+<form novalidate #deconnexionForm="ngForm">
+	<h2 mat-dialog-title>Qui suis-je ?</h2>
+
+	<mat-dialog-content>
+		<p class="text-center">
+			<span>Vous êtes connecté avec le compte de </span>
+			<span>{{utilisateurConnecte.nom}}</span>
+		</p>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+		<div class="col-12">
+			<button type="submit" class="button" (click)=mettreAjour() matTooltip="Mettre à jour l'application">
+				<em class="fa fa-spinner fa-pulse" *ngIf="miseAjourEnCours"></em>
+				<span>Reparo</span>
+			</button>
+			<button type="submit" class="button" (click)=seDeconnecter() matTooltip="Se déconnecter">
+				<em class="fa fa-spinner fa-pulse" *ngIf="deconnexionEnCours"></em>
+				<span>Méfait accompli</span>
+			</button>
+		</div>
+	</mat-dialog-actions>
+</form>
