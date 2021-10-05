@@ -6,6 +6,7 @@ import { AbstractComponent } from '../abstract/abstract.component';
 import { AnneeScolaire, Decision, Groupe } from '../model/model';
 import { Auth } from './auth';
 import { Dao } from './dao';
+import { GestionnaireErreur } from './erreur';
 import { Evenement } from './evenement';
 
 /**
@@ -15,7 +16,7 @@ import { Evenement } from './evenement';
 export class Service extends AbstractComponent implements OnInit {
 
     /** Constructeur pour injection des dépendances */
-    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate) { super(); }
+    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate, private gestionnaireErreur: GestionnaireErreur) { super(); }
 
     /** A l'initialisation du composant */
     public ngOnInit(): void {
@@ -43,16 +44,16 @@ export class Service extends AbstractComponent implements OnInit {
                                 this.evenement.lancerEvenementAnneeChargee(annee);
                                 return true;
                             } else {
-                                console.error('Erreur de connexion-aucun adulte correspondant à l\'utilisateur ' + utilisateur.id);
+                                this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion-aucun adulte correspondant à l\'utilisateur ' + utilisateur.id);
                                 return false;
                             }
                         } else {
-                            console.error('Erreur de connexion-aucune année chargée');
+                            this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion-aucune année chargée');
                             return false;
                         }
                     }));
                 } else {
-                    console.error('Erreur de connexion-auth');
+                    this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion-auth');
                     return of(false);
                 }
             })

@@ -16,8 +16,9 @@ export class GestionnaireErreur {
     public constructor(private snackbar: MatSnackBar) { }
 
     /** Affichage d'un message à l'utilisateur en fonction du type d'erreur */
-    public gererMessageDerreur(message: string, erreur: Error): void {
-        this.snackbar.open(message + ' (' + erreur.message + ')', 'Erreur', GestionnaireErreur.MAT_SNACK_CONFIG);
+    public gererMessageDerreur(message: string, erreur?: Error): void {
+        const details = erreur ? (' (' + erreur.message + ')') : '';
+        this.snackbar.open(message + details, 'Erreur', GestionnaireErreur.MAT_SNACK_CONFIG);
         console.error(message, erreur);
     }
 }
