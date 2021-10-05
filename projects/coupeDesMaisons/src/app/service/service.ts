@@ -29,11 +29,11 @@ export class Service implements OnInit {
     /** Connexion avec un login et un mot de passe */
     public seConnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
         return this.auth.seConnecter(utilisateur, motDePasse).pipe(
-            map(utilisateur => {
+            mergeMap(utilisateur => {
                 // Si la connexion est OK
                 if (!!utilisateur) {
                     // Chargement des données
-                    this.dao.chargerDonnees().subscribe(annee => {
+                    return this.dao.chargerDonnees().pipe(map(annee => {
                         if (annee) {
                             this.anneeChargee = annee;
                             // Recherche de l'utilisateur connecté dans les adultes de la base
@@ -52,12 +52,12 @@ export class Service implements OnInit {
                         } else {
                             console.error('Erreur de connexion-aucune année chargée');
                         }
-                    });
+                        return !!annee;
+                    }));
                 } else {
                     console.error('Erreur de connexion-auth');
+                    return of(false);
                 }
-
-                return !!utilisateur;
             })
         );
     }
