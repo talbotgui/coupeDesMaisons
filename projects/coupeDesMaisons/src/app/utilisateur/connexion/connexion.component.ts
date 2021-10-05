@@ -21,16 +21,22 @@ export class ConnexionComponent extends AbstractComponent {
 
   /** Action de connexion si les champs sont renseignés (protection supp) */
   public seConnecter(): void {
+    // Si les champs sont saisis
     if (this.nomUtilisateur && this.motDePasse) {
+      // Flag "enCours"
       this.connexionEnCours = true;
-      const sub = this.service.seConnecter(this.nomUtilisateur, this.motDePasse).subscribe(estConnecte => {
+
+      // Call back pour ne pas gérer la souscription ici car le dialog est détruit alors qu'on a besoin de conserver la souscription pour mettre à jour régulièrement les données.
+      const callback = (estConnecte: boolean) => {
         this.connexionEnCours = false;
         if (estConnecte) {
           console.log('Utilisateur connecté, fermeture de la dialog');
           this.dialogRef.close();
         }
-      });
-      this.declarerSouscription(sub);
+      };
+
+      // Appel au service
+      this.service.seConnecter(this.nomUtilisateur, this.motDePasse, callback);
     }
   }
 }

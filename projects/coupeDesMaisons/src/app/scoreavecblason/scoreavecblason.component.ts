@@ -28,15 +28,16 @@ export class ScoreAvecBlasonComponent extends AbstractComponent implements OnIni
     this.declarerSouscription(sub1);
 
     // Au chargement d'une année
-    const sub2 = this.evenement.obtenirObservableAnneeChargee()
-      .subscribe(annee => {
-        this.annee = annee;
-        if (this.annee && this.annee.groupes) {
-          this.largeurCol = 12 / this.annee.groupes.length;
-          this.colDeltaGauche = (12 - (this.annee.groupes.length * this.largeurCol)) / 2;
-          this.colDeltaDroite = 12 - (this.annee.groupes.length * this.largeurCol) - this.colDeltaGauche;
-        }
-      });
+    const sub2 = this.evenement.obtenirObservableAnneeChargee().subscribe(annee => {
+      // Sauvegarde de l'instance dans le composant pour affichage
+      this.annee = annee;
+      // Calcul des largeurs et delta pour l'affichage
+      if (this.annee && this.annee.groupes) {
+        this.largeurCol = 12 / this.annee.groupes.length;
+        this.colDeltaGauche = (12 - (this.annee.groupes.length * this.largeurCol)) / 2;
+        this.colDeltaDroite = 12 - (this.annee.groupes.length * this.largeurCol) - this.colDeltaGauche;
+      }
+    });
     this.declarerSouscription(sub2);
   }
 
