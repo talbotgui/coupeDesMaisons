@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractComponent } from '../../abstract/abstract.component';
 import { Bareme, Decision, Groupe, SaisieScoreDto } from '../../model/model';
 import { Service } from '../../service/service';
+import { Utils } from '../../service/utils';
 
 @Component({ selector: 'app-saisiescore', templateUrl: './saisiescore.component.html', styleUrls: ['./saisiescore.component.css'] })
 export class SaisieScoreComponent extends AbstractComponent implements OnInit {
@@ -30,7 +31,7 @@ export class SaisieScoreComponent extends AbstractComponent implements OnInit {
       // Création de l'objet
       const decision = new Decision();
       decision.idAdulte = this.saisieDto.adulteConnecte?.id;
-      decision.date = this.creerDateFormatee();
+      decision.date = Utils.creerDateFormatee();
       decision.idGroupe = this.groupe.id;
       decision.idBareme = this.bareme.id;
       decision.points = this.bareme.points;
@@ -43,11 +44,5 @@ export class SaisieScoreComponent extends AbstractComponent implements OnInit {
       });
       this.declarerSouscription(sub);
     }
-  }
-
-  /** Créer la date du jour en string formattée */
-  private creerDateFormatee(): string {
-    const d = new Date();
-    return (d.getDay() < 10) ? '0' : '' + d.getDay() + '/' + (d.getMonth() < 10) ? '0' : '' + d.getMonth() + '/' + d.getFullYear();
   }
 }
