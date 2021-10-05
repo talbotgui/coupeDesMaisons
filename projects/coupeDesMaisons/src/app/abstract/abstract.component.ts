@@ -16,7 +16,12 @@ export class AbstractComponent implements OnDestroy {
     }
 
     /** Destruction des souscriptions créées */
-    public ngOnDestroy(): void {
+    public detruireLesSouscriptions(): void {
         this.souscriptions.forEach(s => s.unsubscribe());
+    }
+
+    /** A la destruction du composant, on détruit ses souscriptions */
+    public ngOnDestroy(): void {
+        this.detruireLesSouscriptions();
     }
 }

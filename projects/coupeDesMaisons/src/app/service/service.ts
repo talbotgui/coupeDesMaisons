@@ -2,23 +2,20 @@ import { Injectable, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { Adulte, AnneeScolaire, Decision, Groupe } from '../model/model';
+import { AbstractComponent } from '../abstract/abstract.component';
+import { AnneeScolaire, Decision, Groupe } from '../model/model';
 import { Auth } from './auth';
 import { Dao } from './dao';
 import { Evenement } from './evenement';
-
 
 /**
  * Classe traitant de toutes les logiques.
  */
 @Injectable()
-export class Service implements OnInit {
-
-    private anneeChargee = new AnneeScolaire();
-    private utilisateurConnecte: Adulte | undefined = new Adulte();
+export class Service extends AbstractComponent implements OnInit {
 
     /** Constructeur pour injection des dépendances */
-    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate) { }
+    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate) { super(); }
 
     /** A l'initialisation du composant */
     public ngOnInit(): void {
@@ -27,39 +24,44 @@ export class Service implements OnInit {
     }
 
     /** Connexion avec un login et un mot de passe */
-    public seConnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
-        return this.auth.seConnecter(utilisateur, motDePasse).pipe(
+    public seConnecter(utilisateur: string, motDePasse: string, callback: (e: boolean) => void): void {
+        const sub = this.auth.seConnecter(utilisateur, motDePasse).pipe(
             mergeMap(utilisateur => {
                 // Si la connexion est OK
                 if (!!utilisateur) {
                     // Chargement des données
                     return this.dao.chargerDonnees().pipe(map(annee => {
                         if (annee) {
-                            this.anneeChargee = annee;
                             // Recherche de l'utilisateur connecté dans les adultes de la base
                             const adulteConnecte = annee.adultes.find(a => a.id === utilisateur.id);
                             // Lancement de l'évènement de connexion avec l'adulte trouvé
                             if (adulteConnecte) {
-                                this.utilisateurConnecte = adulteConnecte;
-                                this.evenement.lancerEvenementConnexion(this.utilisateurConnecte);
+                                this.evenement.lancerEvenementConnexion(adulteConnecte);
                                 // Calcul des scores
-                                this.calculerScoresApresChargementDeLannee();
+                                this.calculerScoresApresChargementDeLannee(annee);
                                 // Notification
                                 this.evenement.lancerEvenementAnneeChargee(annee);
+                                return true;
                             } else {
                                 console.error('Erreur de connexion-aucun adulte correspondant à l\'utilisateur ' + utilisateur.id);
+                                return false;
                             }
                         } else {
                             console.error('Erreur de connexion-aucune année chargée');
+                            return false;
                         }
-                        return !!annee;
                     }));
                 } else {
                     console.error('Erreur de connexion-auth');
                     return of(false);
                 }
             })
-        );
+        )
+            // La souscription se fait ici et non dans le composant car ce dernier est détruit
+            .subscribe(callback);
+
+        // Stockage de la souscription
+        this.declarerSouscription(sub);
     }
 
     /** Rechargement de l'application pour mAj */
@@ -91,12 +93,13 @@ export class Service implements OnInit {
                 if (resultat) {
                     // Notification
                     this.evenement.lancerEvenementDeconnexion();
+                    // Supprimer les souscriptions en cours
+                    this.detruireLesSouscriptions();
                     // Reset des données du service
-                    this.utilisateurConnecte = undefined;
-                    this.anneeChargee = new AnneeScolaire();
-                    this.calculerScoresApresChargementDeLannee();
+                    const anneeChargee = new AnneeScolaire();
+                    this.calculerScoresApresChargementDeLannee(anneeChargee);
                     // Notification
-                    this.evenement.lancerEvenementAnneeChargee(this.anneeChargee);
+                    this.evenement.lancerEvenementAnneeChargee(anneeChargee);
                 }
             })
         )
@@ -113,12 +116,12 @@ export class Service implements OnInit {
     }
 
     /** Calcul du score de chaque groupe après le chargement de l'année */
-    private calculerScoresApresChargementDeLannee() {
-        if (this.anneeChargee && this.anneeChargee.decisions && this.anneeChargee.groupes) {
+    private calculerScoresApresChargementDeLannee(anneeChargee: AnneeScolaire) {
+        if (anneeChargee && anneeChargee.decisions && anneeChargee.groupes) {
 
             // Création d'une map de groupe
             const groupes = new Map<string, Groupe>();
-            this.anneeChargee.groupes.forEach(g => {
+            anneeChargee.groupes.forEach(g => {
                 g.scoreCalcule = 0;
                 if (g.id) {
                     groupes.set(g.id, g);
@@ -126,7 +129,7 @@ export class Service implements OnInit {
             });
 
             // Calcul du score à partir des décisions
-            this.anneeChargee.decisions.forEach(d => {
+            anneeChargee.decisions.forEach(d => {
                 if (d.idGroupe && d.points) {
                     const groupe = groupes.get(d.idGroupe);
                     if (groupe) {
@@ -136,7 +139,7 @@ export class Service implements OnInit {
             });
 
             // log des scores
-            this.anneeChargee.groupes.forEach(g => console.log('Groupe "' + g.nom + '" a ' + g.scoreCalcule + ' points'));
+            anneeChargee.groupes.forEach(g => console.log('Groupe "' + g.nom + '" a ' + g.scoreCalcule + ' points'));
         }
     }
 }
