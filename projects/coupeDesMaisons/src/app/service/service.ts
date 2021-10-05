@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { Adulte, AnneeScolaire, Decision, Groupe } from '../model/model';
 import { Auth } from './auth';
 import { Dao } from './dao';
@@ -11,13 +12,19 @@ import { Evenement } from './evenement';
  * Classe traitant de toutes les logiques.
  */
 @Injectable()
-export class Service {
+export class Service implements OnInit {
 
     private anneeChargee = new AnneeScolaire();
-    private utilisateurConnecte = new Adulte();
+    private utilisateurConnecte: Adulte | undefined = new Adulte();
 
     /** Constructeur pour injection des dépendances */
-    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao) { }
+    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate) { }
+
+    /** A l'initialisation du composant */
+    public ngOnInit(): void {
+        // Surveillance des versions de l'application
+        this.verifierMiseAjourDeLapplication();
+    }
 
     /** Connexion avec un login et un mot de passe */
     public seConnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
@@ -55,11 +62,44 @@ export class Service {
         );
     }
 
-    public seDeconnecter(utilisateur: string, motDePasse: string): Observable<boolean> {
-        //TODO: à implémenter
-        //this.chargerAnneeEnCours()
-        // this.evenement.lancerEvenementDeconnexion();
-        return of(true);
+    /** Rechargement de l'application pour mAj */
+    public mettreAjourLapplication(): void {
+        // Fonction dépréciée mais utilisée quand même
+        window.location.reload(true);
+    }
+
+    /** Rechargement de l'application pour mAj */
+    public verifierMiseAjourDeLapplication(): void {
+        const majActivee = this.maj.activated;
+        // dès qu'une maj est disponible
+        this.maj.available.pipe(
+            mergeMap(e => {
+                console.log('version disponible : ', e);
+                return majActivee;
+            }),
+            map(e => {
+                console.log('version isntallée :', e);
+                this.mettreAjourLapplication();
+            })
+        );
+    }
+
+    /** Déconnexion */
+    public seDeconnecter(): Observable<boolean> {
+        return this.auth.seDeconnecter().pipe(
+            tap(resultat => {
+                if (resultat) {
+                    // Notification
+                    this.evenement.lancerEvenementDeconnexion();
+                    // Reset des données du service
+                    this.utilisateurConnecte = undefined;
+                    this.anneeChargee = new AnneeScolaire();
+                    this.calculerScoresApresChargementDeLannee();
+                    // Notification
+                    this.evenement.lancerEvenementAnneeChargee(this.anneeChargee);
+                }
+            })
+        )
     }
 
     /** Ajout d'une décision */
@@ -67,7 +107,7 @@ export class Service {
         return this.dao.ajouterUneDecision(decision)
     }
 
-    public supprimerUneDeMesDecision(id: string): Observable<boolean> {
+    public supprimerUneDeMesDecisions(id: string): Observable<boolean> {
         //TODO: à implémenter
         return of(true);
     }

@@ -20,7 +20,7 @@
 	<mat-dialog-actions>
 		<div class="col-12">
 			<button type="submit" class="button" [disabled]="!motDePasse || !nomUtilisateur || connexionEnCours"
-				(click)=seConnecter()>
+				(click)=seConnecter() matTooltip="Se connecter">
 				<em class="fa fa-spinner fa-pulse" *ngIf="connexionEnCours"></em>
 				<span>Alohomora</span>
 			</button>

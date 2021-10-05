@@ -1,6 +1,7 @@
 <!-- Utilisateur connecté -->
 <div class="row h-100 ligneUtilisateur" *ngIf="utilisateurConnecte">
 	<div class="col-8"></div>
-	<div class="col-4 photoUtilisateur" [style.background-image]="'url(' + utilisateurConnecte.photo +')'">
+	<div class="col-4 photoUtilisateur" (click)="ouvrirPopupDeconnexion()"
+		[style.background-image]="'url(' + utilisateurConnecte.photo +')'">
 	</div>
 </div>

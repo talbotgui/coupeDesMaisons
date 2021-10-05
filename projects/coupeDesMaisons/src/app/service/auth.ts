@@ -56,4 +56,17 @@ export class Auth implements OnDestroy {
             })
         );
     }
+
+    /** Appels à Firebase pour se déconnecter */
+    public seDeconnecter(): Observable<boolean> {
+        return from(this.auth.signOut()).pipe(
+            // Transformation du retour en boolean
+            map(() => true),
+            // Gestion d'erreur
+            catchError(erreur => {
+                this.gestionnaireErreur.gererMessageDerreur('Erreur de déconnexion', erreur);
+                return of(false);
+            })
+        );
+    }
 }
