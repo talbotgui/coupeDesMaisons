@@ -14,7 +14,7 @@
     "ncu": "ncu",
     "e2e": "ng run coupeDesMaisons:cypress-open --watch",
     "start": "ng serve --project=coupeDesMaisons --hmr=true --port=4200",
-    "build-prod": "ng build --project=coupeDesMaisons --configuration production --aot --buildOptimizer=true",
+    "build-prod": "ng build --project=coupeDesMaisons --configuration production --aot --buildOptimizer=true --output-hashing=all",
     "compodoc": "npx compodoc -p ./projects/coupeDesMaisons/tsconfig.doc.json -d dist/documentation/coupeDesMaisons --language fr-FR",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
