@@ -21,6 +21,7 @@ export class SaisieScoreComponent extends AbstractComponent implements OnInit {
     if (this.saisieDto.annee) {
       this.groupes = this.saisieDto.annee.groupes;
       this.baremes = this.saisieDto.annee.baremes;
+      this.baremes.sort((a, b) => (a && b && a.points && b.points) ? a.points - b.points : -1);
     }
   }
 

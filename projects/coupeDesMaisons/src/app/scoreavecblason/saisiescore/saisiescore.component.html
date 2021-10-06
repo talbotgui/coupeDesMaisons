@@ -6,7 +6,7 @@
 			<mat-form-field appearance="fill">
 				<mat-label>Nombre de points</mat-label>
 				<mat-select #inputPoints="ngModel" [(ngModel)]="bareme" placeholder="Nombre de points" name="bareme">
-					<mat-option *ngFor="let b of baremes" [value]="b">{{b.libelle}}</mat-option>
+					<mat-option *ngFor="let b of baremes" [value]="b">({{b.points}}) {{b.libelle}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 		</div>
