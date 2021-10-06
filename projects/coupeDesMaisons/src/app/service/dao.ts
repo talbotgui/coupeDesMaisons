@@ -40,6 +40,23 @@ export class Dao {
         }
     }
 
+    /** Suppression d'une décision */
+    public supprimerUneDecision(id: string): Observable<boolean> {
+        // Appel à Firebase
+        if (this.firebaseDecisions) {
+            return from(this.firebaseDecisions.doc(id).delete()).pipe(
+                // Transformation
+                map(() => true),
+                // Gestion d'erreur
+                catchError(erreur => {
+                    this.gestionnaireErreur.gererMessageDerreur('Erreur à l\'ajout des données', erreur);
+                    return of(true);
+                }));
+        } else {
+            return of(true);
+        }
+    }
+
     /** Chargement de toutes les données */
     public chargerDonnees(): Observable<AnneeScolaire | undefined> {
 

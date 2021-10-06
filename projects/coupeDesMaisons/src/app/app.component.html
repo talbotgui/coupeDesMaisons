@@ -8,7 +8,10 @@
 	<!-- Contenu de la page -->
 	<div class="row ligneContenu">
 		<div class="col-12">
-			<app-scoreavecblason></app-scoreavecblason>
+			<em class="fa fa-2x" [class.fa-history]="vueBlasonAffichee" [class.fa-shield]="!vueBlasonAffichee"
+				*ngIf="utilisateurConnecte" (click)="vueBlasonAffichee=!vueBlasonAffichee"></em>
+			<app-scoreavecblason *ngIf="vueBlasonAffichee"></app-scoreavecblason>
+			<app-historique *ngIf="!vueBlasonAffichee"></app-historique>
 		</div>
 	</div>
 </div>

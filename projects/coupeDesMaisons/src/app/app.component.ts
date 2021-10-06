@@ -10,6 +10,9 @@ export class AppComponent extends AbstractComponent implements OnInit {
   /** Référence à l'utiliateur connecté (utilisé pour conditionner des affichages) */
   public utilisateurConnecte?: Adulte;
 
+  /** Flag définissant la vue affichée */
+  public vueBlasonAffichee = true;
+
   /** Constructeur pour injection des dépendances */
   constructor(private service: Service, private evenement: Evenement) { super(); }
 

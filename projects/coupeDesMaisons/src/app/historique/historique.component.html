@@ -1,0 +1,20 @@
+<ng-template [ngIf]="decisions && utilisateurConnecte">
+	<div class="row">
+		<div class="col-2">Date</div>
+		<div class="col-1">Groupe</div>
+		<div class="col-1">Points</div>
+		<div class="col-4">Raison</div>
+		<div class="col-2">Adulte</div>
+	</div>
+	<div class="row" *ngFor="let d of decisions">
+		<div class="col-2">{{d.date}}</div>
+		<div class="col-1">{{d.idGroupe}}</div>
+		<div class="col-1">{{d.points}}</div>
+		<div class="col-4"><span *ngIf="d.idBareme">{{baremes[d.idBareme].libelle}}</span></div>
+		<div class="col-2">
+			<span *ngIf="d.idAdulte && d.idAdulte!=utilisateurConnecte.id">{{adultes[d.idAdulte].nom}}</span>
+			<span *ngIf="d.idAdulte==utilisateurConnecte.id">par moi </span>
+			<em *ngIf="d.idAdulte==utilisateurConnecte.id" class="fa fa-remove" (click)="supprimerDecision(d)"></em>
+		</div>
+	</div>
+</ng-template>

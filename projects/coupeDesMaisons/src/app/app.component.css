@@ -1,2 +1,6 @@
+/** Pour fixer les divs sur toute la hauteur de l'écran */
 .ligneUtilisateur { height: 10%!important;}
 .ligneContenu { height: 90%!important;}
+
+/* pour positionner le sélecteur de vue en haut à droite */
+em { color:white; position: absolute; right: 0px; margin-top: 15px; }

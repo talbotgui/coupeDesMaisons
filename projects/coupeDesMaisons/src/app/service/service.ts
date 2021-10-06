@@ -111,9 +111,9 @@ export class Service extends AbstractComponent implements OnInit {
         return this.dao.ajouterUneDecision(decision)
     }
 
+    /** Suppression d'une décision */
     public supprimerUneDeMesDecisions(id: string): Observable<boolean> {
-        //TODO: à implémenter
-        return of(true);
+        return this.dao.supprimerUneDecision(id);
     }
 
     /** Calcul du score de chaque groupe après le chargement de l'année */

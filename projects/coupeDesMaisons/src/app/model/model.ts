@@ -25,6 +25,8 @@ export class Decision {
   public idBareme?: string;
   public idGroupe?: string;
   public idAdulte?: string;
+
+  public dateTech?: number;
 }
 
 export class Bareme {

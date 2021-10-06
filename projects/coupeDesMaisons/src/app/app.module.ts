@@ -25,6 +25,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { MyDateAdapter } from './dateformat.component';
+import { HistoriqueComponent } from './historique/historique.component';
 import { AttributesToMapPipe, MapValuesPipe } from './pipes.component';
 import { SaisieScoreComponent } from './scoreavecblason/saisiescore/saisiescore.component';
 import { ScoreAvecBlasonComponent } from './scoreavecblason/scoreavecblason.component';
@@ -48,7 +49,7 @@ registerLocaleData(localeFr, 'fr');
   // Tous les composants applicatifs de l'application
   declarations: [
     AppComponent, ConnexionComponent, UtilisateurComponent, ScoreAvecBlasonComponent, SaisieScoreComponent,
-    AttributesToMapPipe, MapValuesPipe, DeconnexionComponent,
+    AttributesToMapPipe, MapValuesPipe, DeconnexionComponent, HistoriqueComponent,
   ],
 
   // Tous les composants à afficher dans un Dialog
