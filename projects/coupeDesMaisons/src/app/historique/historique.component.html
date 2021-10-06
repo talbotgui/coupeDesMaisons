@@ -7,10 +7,10 @@
 		<div class="col-2">Adulte</div>
 	</div>
 	<div class="row" *ngFor="let d of decisions">
-		<div class="col-2">{{d.date}}</div>
+		<div class="col-2">{{d.date?d.date.substring(0,5):''}}</div>
 		<div class="col-1">{{d.idGroupe}}</div>
 		<div class="col-1">{{d.points}}</div>
-		<div class="col-4"><span *ngIf="d.idBareme">{{baremes[d.idBareme].libelle}}</span></div>
+		<div class="col-4 toutPetit"><span *ngIf="d.idBareme">{{baremes[d.idBareme].libelle}}</span></div>
 		<div class="col-2">
 			<span *ngIf="d.idAdulte && d.idAdulte!=utilisateurConnecte.id">{{adultes[d.idAdulte].nom}}</span>
 			<span *ngIf="d.idAdulte==utilisateurConnecte.id">par moi </span>

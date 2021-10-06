@@ -1,1 +1,5 @@
+/* Pour lire sur le fond noir */
 div { color: white; }
+
+/* les libellés du barème peuvent être longs */
+.toutPetit { font-size: 0.8em; } 
