@@ -29,7 +29,8 @@
             "assets": [
               "projects/coupeDesMaisons/src/favicon.ico",
               "projects/coupeDesMaisons/src/assets",
-              "projects/coupeDesMaisons/src/manifest.webmanifest"
+              "projects/coupeDesMaisons/src/manifest.webmanifest",
+              "projects/coupeDesMaisons/src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/font-awesome/css/font-awesome.css",
@@ -63,6 +64,10 @@
                 {
                   "replace": "projects/coupeDesMaisons/src/environments/environment.ts",
                   "with": "projects/coupeDesMaisons/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "projects/coupeDesMaisons/src/firebase-messaging-sw.js",
+                  "with": "projects/coupeDesMaisons/src/firebase-messaging-sw.prod.js"
                 }
               ],
               "outputHashing": "all"
@@ -107,7 +112,8 @@
             "assets": [
               "projects/coupeDesMaisons/src/favicon.ico",
               "projects/coupeDesMaisons/src/assets",
-              "projects/coupeDesMaisons/src/manifest.webmanifest"
+              "projects/coupeDesMaisons/src/manifest.webmanifest",
+              "projects/coupeDesMaisons/src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/font-awesome/css/font-awesome.css",

@@ -8,6 +8,7 @@ import { Auth } from './auth';
 import { Dao } from './dao';
 import { GestionnaireErreur } from './erreur';
 import { Evenement } from './evenement';
+import { Notification } from './notification';
 
 /**
  * Classe traitant de toutes les logiques.
@@ -16,7 +17,7 @@ import { Evenement } from './evenement';
 export class Service extends AbstractComponent implements OnInit {
 
     /** Constructeur pour injection des dépendances */
-    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate, private gestionnaireErreur: GestionnaireErreur) { super(); }
+    constructor(private evenement: Evenement, private auth: Auth, private dao: Dao, private maj: SwUpdate, private gestionnaireErreur: GestionnaireErreur, private notification: Notification) { super(); }
 
     /** A l'initialisation du composant */
     public ngOnInit(): void {
@@ -53,7 +54,7 @@ export class Service extends AbstractComponent implements OnInit {
                         }
                     }));
                 } else {
-                    this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion-auth');
+                    // Cas d'erreur géré dans le service. Donc pas de log/toaster en double
                     return of(false);
                 }
             })
@@ -114,6 +115,17 @@ export class Service extends AbstractComponent implements OnInit {
     /** Suppression d'une décision */
     public supprimerUneDeMesDecisions(id: string): Observable<boolean> {
         return this.dao.supprimerUneDecision(id);
+    }
+
+
+    /** Demande d'autorisation de notification */
+    public demanderPermissionNotification(): Observable<boolean> {
+        return this.notification.demanderPermissionNotification();
+    }
+
+    /** Retrait de l'autorisation de notification */
+    public verifierNotificationsAutorisees(): Observable<boolean> {
+        return this.notification.verifierNotificationsAutorisees();
     }
 
     /** Calcul du score de chaque groupe après le chargement de l'année */

@@ -6,6 +6,11 @@
 			<span>Vous êtes connecté avec le compte de </span>
 			<span>{{utilisateurConnecte.nom}}</span>
 		</p>
+		<p class="text-center" *ngIf="!!notificationsActivees">
+			<span>Les notifications sont actives. Pour les désactiver, utiliser les fonctionnalités de votre
+				navigateur. </span>
+			<a href="https://www.sociatex.com/support/kb/117" target="_blank">Un guide est disponible ici.</a>
+		</p>
 	</mat-dialog-content>
 	<mat-dialog-actions>
 		<div class="col-12">
@@ -16,6 +21,10 @@
 			<button type="submit" class="button" (click)=seDeconnecter() matTooltip="Se déconnecter">
 				<em class="fa fa-spinner fa-pulse" *ngIf="deconnexionEnCours"></em>
 				<span>Méfait accompli</span>
+			</button>
+			<button type="submit" class="button" (click)="demanderPermissionNotification()"
+				matTooltip="Activer les notifications" *ngIf="!notificationsActivees">
+				<span>Activer les notifications</span>
 			</button>
 		</div>
 	</mat-dialog-actions>

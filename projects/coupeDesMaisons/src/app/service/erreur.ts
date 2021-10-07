@@ -21,4 +21,10 @@ export class GestionnaireErreur {
         this.snackbar.open(message + details, 'Erreur', GestionnaireErreur.MAT_SNACK_CONFIG);
         console.error(message, erreur);
     }
+
+    /** Affichage d'un message */
+    public afficherMessage(message: string, titre: string): void {
+        this.snackbar.open(message, titre, GestionnaireErreur.MAT_SNACK_CONFIG);
+        console.log(message);
+    }
 }

@@ -4,6 +4,7 @@ import localeFr from '@angular/common/locales/fr';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +34,7 @@ import { Auth } from './service/auth';
 import { Dao } from './service/dao';
 import { GestionnaireErreur } from './service/erreur';
 import { Evenement } from './service/evenement';
+import { Notification } from './service/notification';
 import { Service } from './service/service';
 import { ConnexionComponent } from './utilisateur/connexion/connexion.component';
 import { DeconnexionComponent } from './utilisateur/deconnexion/deconnexion.component';
@@ -62,7 +64,7 @@ registerLocaleData(localeFr, 'fr');
     { provide: DateAdapter, useClass: MyDateAdapter },
 
     // Les composants injectables
-    Service, Evenement, Dao, Auth, GestionnaireErreur,
+    Service, Evenement, Dao, Auth, GestionnaireErreur, Notification,
 
   ],
 
@@ -77,9 +79,21 @@ registerLocaleData(localeFr, 'fr');
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
     MatDialogModule, MatTreeModule, MatInputModule, MatSnackBarModule,
 
+    // notifications dans l'application Angular
+    //https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md
+
+    // trigger dans Firebase :
+    // https://firebase.google.com/docs/functions/firestore-events
+    //     const functions = require('firebase-functions');
+
+    // exports.myFunction = functions.firestore
+    //   .document('my-collection/{docId}')
+    //   .onWrite((change, context) => { /* ... */ });
+    // puis https://github.com/firebase/functions-samples/tree/main/fcm-notifications
+
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule, AngularFireMessagingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

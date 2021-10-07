@@ -46,6 +46,7 @@ export class Auth implements OnDestroy {
                     utilisateurConnecte.id = resultat.user.email;
                     return utilisateurConnecte;
                 } else {
+                    this.gestionnaireErreur.gererMessageDerreur('Erreur de connexion');
                     return undefined;
                 }
             }),
