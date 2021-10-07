@@ -1,7 +1,2 @@
-/** Pour ne pas afficher la photo de l'utilisateur en paysage et petit mobile */
-@media (orientation: landscape) and (max-width: 768px) {
-    .ligneUtilisateur { display: none; }
-}
-
 /** Pour afficher l'image efficacement (calée à droite et de la taille de la DIV) */
 .photoUtilisateur { background-size: contain; background-repeat: no-repeat; background-position: right; }
