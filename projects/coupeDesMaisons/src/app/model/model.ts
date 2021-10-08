@@ -9,6 +9,7 @@ export class Adulte {
   public id?: string;
   public nom?: string;
   public photo?: string;
+  public token?: string;
 }
 
 export class Groupe {

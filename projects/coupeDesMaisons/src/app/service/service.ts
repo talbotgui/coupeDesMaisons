@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { AbstractComponent } from '../abstract/abstract.component';
 import { AnneeScolaire, Decision, Groupe } from '../model/model';
@@ -125,7 +125,19 @@ export class Service extends AbstractComponent implements OnInit {
 
     /** Retrait de l'autorisation de notification */
     public verifierNotificationsAutorisees(): Observable<boolean> {
-        return this.notification.verifierNotificationsAutorisees();
+        // on va chercher si une notification est active
+        return this.notification.verifierNotificationsAutorisees().pipe(
+            // on récupère EN PLUS l'utilisateur connecté
+            mergeMap((token) => combineLatest([of(token), this.auth.recupererLoginUtilisateurConnecte()])),
+            // Avec les deux infos, on met à jour le token dans la base
+            tap(([token, emailUtilisateurConnecte]) => {
+                if (token && emailUtilisateurConnecte) {
+                    this.dao.mettreAjourTokenUtilisateurConnecte(emailUtilisateurConnecte, token);
+                }
+            }),
+            // on renvoi un boolean en sortie
+            map(token => !!token)
+        );
     }
 
     /** Calcul du score de chaque groupe après le chargement de l'année */

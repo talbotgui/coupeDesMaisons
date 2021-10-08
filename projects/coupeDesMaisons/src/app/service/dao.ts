@@ -19,8 +19,9 @@ export class Dao {
     private groupes: Observable<Groupe[]> = of([]);
     private baremes: Observable<Bareme[]> = of([]);
 
-    /** Collection firebase des décisions */
+    /** Collection firebase  */
     private firebaseDecisions?: AngularFirestoreCollection<Decision>;
+    private firebaseAdultes?: AngularFirestoreCollection<Adulte>;
 
     /** Constructeur pour injection des dépendances */
     constructor(private gestionnaireErreur: GestionnaireErreur, private firestore: AngularFirestore) { }
@@ -66,7 +67,8 @@ export class Dao {
             // @see https://jsmobiledev.com/article/angularfire-idfield/
             this.firebaseDecisions = this.firestore.collection<Decision>(environment.collections.decisions);
             this.decisions = this.firebaseDecisions.valueChanges({ idField: 'id' });
-            this.adultes = this.firestore.collection<Adulte>(environment.collections.adultes).valueChanges({ idField: 'id' });
+            this.firebaseAdultes = this.firestore.collection<Adulte>(environment.collections.adultes);
+            this.adultes = this.firebaseAdultes.valueChanges({ idField: 'id' });
             this.groupes = this.firestore.collection<Groupe>(environment.collections.groupes).valueChanges({ idField: 'id' });
             this.baremes = this.firestore.collection<Bareme>(environment.collections.baremes).valueChanges({ idField: 'id' });
             this.observablesInitialises = true;
@@ -84,5 +86,13 @@ export class Dao {
                 return of(anneeChargee);
             })
         );
+    }
+
+    /** Sauvegarde du token de l'utilisateur en base */
+    public mettreAjourTokenUtilisateurConnecte(idAdulte: string, token: string): void {
+        // Appel à Firebase
+        if (this.firebaseAdultes) {
+            this.firebaseAdultes.doc(idAdulte).update({ token })
+        }
     }
 }

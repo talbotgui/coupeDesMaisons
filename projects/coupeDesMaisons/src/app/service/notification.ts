@@ -36,7 +36,7 @@ export class Notification extends AbstractComponent implements OnDestroy {
     }
 
     /** Retrait de l'autorisation de notification */
-    public verifierNotificationsAutorisees(): Observable<boolean> {
+    public verifierNotificationsAutorisees(): Observable<string | null> {
         // log
         console.log('verifierNotificationsAutorisees');
 
@@ -45,9 +45,8 @@ export class Notification extends AbstractComponent implements OnDestroy {
             //log
             tap(token => console.log('token', token)),
             // return true si un token est présent
-            map(token => token !== undefined && token !== null),
             // démarre l'écoute si le token est présent
-            tap(flag => { if (flag) { this.demarrerEcoute(); } })
+            tap(token => { if (token) { this.demarrerEcoute(); } })
         );
     }
 

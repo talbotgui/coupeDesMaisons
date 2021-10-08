@@ -70,4 +70,13 @@ export class Auth implements OnDestroy {
             })
         );
     }
+
+    /** Récupération de l'utilisateur connecté */
+    public recupererLoginUtilisateurConnecte(): Observable<string | undefined> {
+        if (this.auth.user) {
+            return this.auth.user.pipe(map(u => (u && u.email) ? u.email : undefined));
+        } else {
+            return of(undefined);
+        }
+    }
 }

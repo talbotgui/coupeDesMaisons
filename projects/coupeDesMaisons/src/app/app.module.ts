@@ -79,18 +79,6 @@ registerLocaleData(localeFr, 'fr');
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
     MatDialogModule, MatTreeModule, MatInputModule, MatSnackBarModule,
 
-    // notifications dans l'application Angular
-    //https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md
-
-    // trigger dans Firebase :
-    // https://firebase.google.com/docs/functions/firestore-events
-    //     const functions = require('firebase-functions');
-
-    // exports.myFunction = functions.firestore
-    //   .document('my-collection/{docId}')
-    //   .onWrite((change, context) => { /* ... */ });
-    // puis https://github.com/firebase/functions-samples/tree/main/fcm-notifications
-
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, AngularFireMessagingModule,
