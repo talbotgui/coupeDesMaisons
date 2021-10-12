@@ -26,3 +26,4 @@ debug.log
 
 # Firebase
 .firebase
+ui-debug.log
