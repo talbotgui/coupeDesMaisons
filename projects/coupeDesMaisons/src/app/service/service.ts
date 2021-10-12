@@ -3,12 +3,13 @@ import { SwUpdate } from '@angular/service-worker';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { AbstractComponent } from '../abstract/abstract.component';
-import { AnneeScolaire, Decision, Groupe } from '../model/model';
+import { AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
 import { Auth } from './auth';
 import { Dao } from './dao';
 import { GestionnaireErreur } from './erreur';
 import { Evenement } from './evenement';
 import { Notification } from './notification';
+import { Utils } from './utils';
 
 /**
  * Classe traitant de toutes les logiques.
@@ -108,8 +109,42 @@ export class Service extends AbstractComponent implements OnInit {
     }
 
     /** Ajout d'une décision */
-    public ajouterUneDecision(decision: Decision): Observable<boolean> {
-        return this.dao.ajouterUneDecision(decision)
+    public ajouterUneDecision(bareme: Bareme, groupe: Groupe, idAdulte: string): Observable<boolean> {
+
+        // Création de l'objet métier
+        const decision = new Decision();
+        decision.idAdulte = idAdulte;
+        decision.date = Utils.creerDateFormatee();
+        decision.idGroupe = groupe.id;
+        decision.idBareme = bareme.id;
+        decision.points = bareme.points;
+
+        // Création des informations propres à la notification
+        const titre = bareme.points + ' pour ' + groupe.nom;
+
+        // Sauvegarde dans la base de données
+        return this.dao.ajouterUneDecision(decision).pipe(
+
+            // Récupération des tokens des utilisateurs ayant activé les notifications
+            mergeMap(flagSucces => {
+
+                // Si la sauvegarde est un succès
+                if (flagSucces) {
+                    return this.dao.listerTokensUtilisateursSauf(idAdulte);
+                } else {
+                    return of(undefined);
+                }
+            }),
+
+            // Envoi d'une notification à tout le monde
+            mergeMap(tokens => {
+                if (tokens) {
+                    return this.notification.notifierSaisieDecision(titre, titre, tokens);
+                } else {
+                    return of(false);
+                }
+            })
+        );
     }
 
     /** Suppression d'une décision */
@@ -130,13 +165,15 @@ export class Service extends AbstractComponent implements OnInit {
             // on récupère EN PLUS l'utilisateur connecté
             mergeMap((token) => combineLatest([of(token), this.auth.recupererLoginUtilisateurConnecte()])),
             // Avec les deux infos, on met à jour le token dans la base
-            tap(([token, emailUtilisateurConnecte]) => {
+            mergeMap(([token, emailUtilisateurConnecte]) => {
                 if (token && emailUtilisateurConnecte) {
-                    this.dao.mettreAjourTokenUtilisateurConnecte(emailUtilisateurConnecte, token);
+                    return this.dao.mettreAjourTokenUtilisateurConnecte(emailUtilisateurConnecte, token);
+                } else {
+                    return of(token)
                 }
             }),
             // on renvoi un boolean en sortie
-            map(token => !!token)
+            map((token) => !!token && token != null)
         );
     }
 

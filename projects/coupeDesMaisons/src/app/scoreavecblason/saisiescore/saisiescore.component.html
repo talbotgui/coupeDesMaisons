@@ -22,7 +22,10 @@
 
 	<mat-dialog-actions>
 		<div class="col-12">
-			<button class="button" [disabled]="!groupe || !bareme" (click)="ajouterScore()">Axio</button>
+			<button class="button" [disabled]="!groupe || !bareme || sauvegardeEnCours" (click)="ajouterScore()">
+				<em class="fa fa-spinner fa-pulse" *ngIf="sauvegardeEnCours"></em>
+				Axio
+			</button>
 		</div>
 	</mat-dialog-actions>
 </form>

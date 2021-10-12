@@ -3,13 +3,14 @@ Application :
  x blason, maison et points
  - échelle avec maison et points
  x ajout de décision
+ x historique des décisions
  - historique des décisions avec chargement par page
- - supprimer une de mes décisions
- - gestion des erreurs
+ x supprimer une de mes décisions
+ x gestion des erreurs
 
 Firebase :
  x auth
  x chargement
  x sauvegarde d'une décision
  x procédure d'administration des données dans Firebase
- - notification
+ x notification

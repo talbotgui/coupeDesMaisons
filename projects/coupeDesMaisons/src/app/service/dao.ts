@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { from, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { AbstractComponent } from '../abstract/abstract.component';
 import { Adulte, AnneeScolaire, Bareme, Decision, Groupe } from '../model/model';
 import { GestionnaireErreur } from './erreur';
 
@@ -10,7 +11,7 @@ import { GestionnaireErreur } from './erreur';
  * Classe traitant tous les appels à la base de données de Firebase.
  */
 @Injectable()
-export class Dao {
+export class Dao extends AbstractComponent {
 
     /** L'observable d'objets métier */
     private observablesInitialises = false;
@@ -24,7 +25,12 @@ export class Dao {
     private firebaseAdultes?: AngularFirestoreCollection<Adulte>;
 
     /** Constructeur pour injection des dépendances */
-    constructor(private gestionnaireErreur: GestionnaireErreur, private firestore: AngularFirestore) { }
+    constructor(private gestionnaireErreur: GestionnaireErreur, private firestore: AngularFirestore) { super(); }
+
+    /** Liste de tous les tokens de tous les utilisateurs sauf l'utilisateur passé en paramètre */
+    public listerTokensUtilisateursSauf(idAdulte: string): Observable<string[]> {
+        return this.adultes.pipe(map(liste => liste.filter(a => a.id !== idAdulte && a.token).map(a => a.token as string)));
+    }
 
     /** Stockage d'une décision */
     public ajouterUneDecision(decision: Decision): Observable<boolean> {
@@ -76,11 +82,11 @@ export class Dao {
 
         // Requête chargeant toutes les données
         const anneeChargee = new AnneeScolaire();
-        return this.adultes.pipe(
-            map(adultes => { anneeChargee.adultes = adultes; return anneeChargee; }),
+        return this.decisions.pipe(
+            map(decisions => { anneeChargee.decisions = decisions; return anneeChargee; }),
             mergeMap(() => this.baremes.pipe(map(baremes => { anneeChargee.baremes = baremes; return anneeChargee; }))),
             mergeMap(() => this.groupes.pipe(map(groupes => { anneeChargee.groupes = groupes; return anneeChargee; }))),
-            mergeMap(() => this.decisions.pipe(map(decisions => { anneeChargee.decisions = decisions; return anneeChargee; }))),
+            mergeMap(() => this.adultes.pipe(map(adultes => { anneeChargee.adultes = adultes; return anneeChargee; }))),
             catchError(erreur => {
                 this.gestionnaireErreur.gererMessageDerreur('Erreur au chargement des données', erreur);
                 return of(anneeChargee);
@@ -89,10 +95,25 @@ export class Dao {
     }
 
     /** Sauvegarde du token de l'utilisateur en base */
-    public mettreAjourTokenUtilisateurConnecte(idAdulte: string, token: string): void {
-        // Appel à Firebase
-        if (this.firebaseAdultes) {
-            this.firebaseAdultes.doc(idAdulte).update({ token })
-        }
+    public mettreAjourTokenUtilisateurConnecte(idAdulte: string, token: string): Observable<string> {
+        return this.adultes.pipe(
+            tap(adultes => {
+                // Vérification que ce token n'est pas déjà associé à un autre utilisateur (cas d'une déconnexion avec le token qui reste dans la navigateur)
+                adultes.filter(a => a.token === token && a.id != idAdulte).forEach(a => {
+                    if (this.firebaseAdultes) {
+                        console.log(a.id + ' a le même token');
+                        this.firebaseAdultes.doc(a.id).update({ token: '' });
+                    }
+                });
+
+                // Appel à Firebase pour sauvegarder le token de l'utilisateur connecté (s'il est différent)
+                adultes.filter(a => a.id == idAdulte).forEach(a => {
+                    if (a.token != token && this.firebaseAdultes) {
+                        this.firebaseAdultes.doc(idAdulte).update({ token });
+                    }
+                });
+            }),
+            map(() => token)
+        );
     }
 }
