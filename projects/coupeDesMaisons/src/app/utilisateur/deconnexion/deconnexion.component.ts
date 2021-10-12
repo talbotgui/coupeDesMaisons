@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from 'projects/coupeDesMaisons/src/environments/environment';
 import { AbstractComponent } from '../../abstract/abstract.component';
 import { Adulte } from '../../model/model';
 import { Service } from '../../service/service';
@@ -10,6 +11,9 @@ export class DeconnexionComponent extends AbstractComponent implements OnInit {
   /** Flag de requête en cours */
   public deconnexionEnCours = false;
   public miseAjourEnCours = false;
+
+  /** version de l'application à afficher */
+  public versionAffichee = environment.versionAffichee;
 
   /** Flag conditionnant l'affichage des boutons de notification */
   public notificationsActivees: boolean | undefined;
@@ -48,7 +52,7 @@ export class DeconnexionComponent extends AbstractComponent implements OnInit {
 
   /** Vérification de l'état des notifications et modification du bouton si besoin */
   private verifierEtatNotification(): void {
-    const sub = this.service.verifierNotificationsAutorisees().subscribe(notificationsActivees => this.notificationsActivees = notificationsActivees)
+    const sub = this.service.verifierNotificationsAutorisees().subscribe(notificationsActivees => { console.log('notificationsActivees', notificationsActivees); this.notificationsActivees = notificationsActivees; })
     this.declarerSouscription(sub);
   }
 }
