@@ -14,3 +14,6 @@ Firebase :
  x sauvegarde d'une décision
  x procédure d'administration des données dans Firebase
  x notification
+
+Github :
+ - suppression des mdp
