@@ -1,0 +1,2 @@
+#pattern  filter=crypt diff=crypt merge=crypt
+./projects/coupeDesMaisons/src/environments/*.ts  filter=crypt diff=crypt merge=crypt
